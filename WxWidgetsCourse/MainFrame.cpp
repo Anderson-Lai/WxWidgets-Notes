@@ -4,10 +4,30 @@
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {
-    wxPanel* panel = new wxPanel(this);
     CreateStatusBar();
 
+    wxPanel* panel = new wxPanel(this);
 
+    std::vector<wxButton*> buttons;
+
+    for (int i = 0; i < 6; i++)
+    {
+        wxString label = wxString::Format("Button %d", i);
+        buttons.push_back(new wxButton(panel, wxID_ANY, label, wxDefaultPosition, wxSize(300, 100)));
+    }
+
+    // "0" rows tells wxWidgets to create as many rows as needed
+    wxGridSizer* gridSizer = new wxGridSizer(0, 2, wxSize(50, 20));
+
+    wxSizerFlags flags = wxSizerFlags().Border(wxLEFT, 50);
+
+    for (auto* button : buttons)
+    {
+        gridSizer->Add(button, flags);
+    }
+
+    panel->SetSizer(gridSizer);
+    gridSizer->SetSizeHints(this);
 }
 
 
@@ -115,6 +135,25 @@ enum ids
 // ----------------------------------------------
 
 
+
+
+// BOX SIZERS:
+
+//wxButton* btn = new wxButton(panel, wxID_ANY, "Button 1");
+//wxButton* btn2 = new wxButton(panel, wxID_ANY, "Button 2");
+
+//// like a div
+//wxBoxSizer* boxSizer = new wxBoxSizer(wxHORIZONTAL);
+
+//wxSizerFlags flag = wxSizerFlags().Proportion(1).CenterVertical().Border(wxALL, 25);
+
+//boxSizer->Add(btn, flag);
+//boxSizer->AddStretchSpacer();
+//boxSizer->Add(btn2, flag);
+
+//// makes sizer responsible for the frame's layout
+//panel->SetSizer(boxSizer);
+//boxSizer->SetSizeHints(this);
 
 
 // KEY EVENTS:
